@@ -24,7 +24,7 @@ const CalculatorScreen = () => {
         <Button value="7" />
         <Button value="8" />
         <Button value="9" />
-        <Button color="#FF9427" value="X" />
+        <Button color="#FF9427" value="x" />
       </View>
 
       <View style={wrapperButtons}>
@@ -42,7 +42,7 @@ const CalculatorScreen = () => {
       </View>
 
       <View style={wrapperButtons}>
-        <Button value="0" isBig hasAlignLeft />
+        <Button value="0" isBig />
         <Button value="." />
         <Button color="#FF9427" value="=" />
       </View>

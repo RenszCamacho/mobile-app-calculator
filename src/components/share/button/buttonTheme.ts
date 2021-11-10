@@ -11,7 +11,7 @@ export const buttonTheme = StyleSheet.create({
   },
   buttonText: {
     fontSize: 30,
-    fontWeight: '300',
+    fontWeight: '400',
     textAlign: 'center',
     justifyContent: 'center',
   },

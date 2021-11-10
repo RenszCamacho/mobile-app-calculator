@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import {buttonTheme} from './buttonTheme';
 
 interface Props {
@@ -22,9 +22,11 @@ const Button = ({value, isBig, color = '#2D2D2D'}: Props) => {
   };
 
   return (
-    <View style={bgColor}>
-      <Text style={textColor}>{value}</Text>
-    </View>
+    <TouchableOpacity>
+      <View style={bgColor}>
+        <Text style={textColor}>{value}</Text>
+      </View>
+    </TouchableOpacity>
   );
 };
 
