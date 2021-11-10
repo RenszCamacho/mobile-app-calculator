@@ -3,12 +3,13 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import {buttonTheme} from './buttonTheme';
 
 interface Props {
-  value: number | string;
+  value: string;
   color?: string;
   isBig?: boolean;
+  action?: (value: string) => void;
 }
 
-const Button = ({value, isBig, color = '#2D2D2D'}: Props) => {
+const Button = ({value, isBig, color = '#2D2D2D', action}: Props) => {
   const {button, buttonText} = buttonTheme;
   const bgColor = {
     ...button,
@@ -22,7 +23,7 @@ const Button = ({value, isBig, color = '#2D2D2D'}: Props) => {
   };
 
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={() => action && action(value)}>
       <View style={bgColor}>
         <Text style={textColor}>{value}</Text>
       </View>

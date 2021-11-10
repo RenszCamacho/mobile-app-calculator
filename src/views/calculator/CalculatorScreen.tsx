@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text} from 'react-native';
 
 import Button from '../../components/share/button/Button';
@@ -8,13 +8,23 @@ const CalculatorScreen = () => {
   const {wrapperButtons, container, operand, currentOperand, previousOperand} =
     calculatorTheme;
 
+  const [digitNumber, setDigitNumber] = useState('0');
+
+  // const onPressButton = (value: string) => {
+  //   setDigitNumber(digitNumber + value);
+  // };
+
+  const onPressClear = () => {
+    setDigitNumber('0');
+  };
+
   return (
     <View style={container}>
-      <Text style={[operand, previousOperand]}>1,500.00</Text>
-      <Text style={[operand, currentOperand]}>1,500.00</Text>
+      <Text style={[operand, previousOperand]}>{digitNumber}</Text>
+      <Text style={[operand, currentOperand]}>{digitNumber}</Text>
 
       <View style={wrapperButtons}>
-        <Button color="#9B9B9B" value="C" />
+        <Button color="#9B9B9B" value="C" action={onPressClear} />
         <Button color="#9B9B9B" value="+/-" />
         <Button color="#9B9B9B" value="del" />
         <Button color="#FF9427" value="/" />
