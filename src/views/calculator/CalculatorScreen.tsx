@@ -1,16 +1,14 @@
 import React from 'react';
-import {View, Text, SafeAreaView} from 'react-native';
+import {View, Text} from 'react-native';
 import {calculatorTheme} from './calculatorTheme';
 
 const CalculatorScreen = () => {
-  const {background, text} = calculatorTheme;
+  const {container, text} = calculatorTheme;
 
   return (
-    <SafeAreaView style={background}>
-      <View>
-        <Text style={text}>Calculator</Text>
-      </View>
-    </SafeAreaView>
+    <View style={container}>
+      <Text style={text}>Calculator</Text>
+    </View>
   );
 };
 
