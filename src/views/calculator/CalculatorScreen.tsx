@@ -25,6 +25,14 @@ const CalculatorScreen = () => {
     setDigitNumber('0');
   };
 
+  const onPressDelete = () => {
+    if (digitNumber.length === 1) {
+      setDigitNumber('0');
+      return;
+    }
+    setDigitNumber(digitNumber.slice(0, -1));
+  };
+
   return (
     <View style={container}>
       {digitNumber !== '0' && (
@@ -45,7 +53,7 @@ const CalculatorScreen = () => {
       <View style={wrapperButtons}>
         <Button color="#9B9B9B" value="C" action={onPressClear} />
         <Button color="#9B9B9B" value="+/-" />
-        <Button color="#9B9B9B" value="del" />
+        <Button color="#9B9B9B" value="del" action={onPressDelete} />
         <Button color="#FF9427" value="/" />
       </View>
 
