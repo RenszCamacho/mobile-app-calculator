@@ -27,6 +27,13 @@ const CalculatorScreen = () => {
       return;
     }
 
+    if (currentNumber === 'Error' || currentNumber === 'NaN') {
+      setCurrentNumber('0');
+      setPrevNumber('0');
+      lastOperatorRef.current = undefined;
+      return;
+    }
+
     if (value === '.' && currentNumber.includes('.')) {
       return;
     }
@@ -99,24 +106,10 @@ const CalculatorScreen = () => {
   };
 
   const onPressEqual = () => {
-    // if (lastOperatorRef.current === Operators.ADD) {
-    //   setCurrentNumber(
-    //     (parseFloat(prevNumber) + parseFloat(currentNumber)).toString(),
-    //   );
-    // } else if (lastOperatorRef.current === Operators.SUBTRACT) {
-    //   setCurrentNumber(
-    //     (parseFloat(prevNumber) - parseFloat(currentNumber)).toString(),
-    //   );
-    // } else if (lastOperatorRef.current === Operators.MULTIPLY) {
-    //   setCurrentNumber(
-    //     (parseFloat(prevNumber) * parseFloat(currentNumber)).toString(),
-    //   );
-    // } else if (lastOperatorRef.current === Operators.DIVIDE) {
-    //   setCurrentNumber(
-    //     (parseFloat(prevNumber) / parseFloat(currentNumber)).toString(),
-    //   );
-    // }
-    // setPrevNumber('0');
+    if (currentNumber === 'Error') {
+      return;
+    }
+
     switch (lastOperatorRef.current) {
       case Operators.ADD:
         setCurrentNumber(
@@ -137,14 +130,18 @@ const CalculatorScreen = () => {
         break;
 
       case Operators.DIVIDE:
-        setCurrentNumber(
-          (parseFloat(prevNumber) / parseFloat(currentNumber)).toString(),
-        );
+        currentNumber === '0'
+          ? setCurrentNumber('Error')
+          : setCurrentNumber(
+              (parseFloat(prevNumber) / parseFloat(currentNumber)).toString(),
+            );
         break;
 
       default:
+        setCurrentNumber('0');
         break;
     }
+
     setPrevNumber('0');
   };
 
