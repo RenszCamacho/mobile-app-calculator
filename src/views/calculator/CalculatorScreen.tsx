@@ -15,6 +15,7 @@ const CalculatorScreen = () => {
       Alert.alert('Max numbers allowed');
       return;
     }
+
     if (value === '.' && digitNumber.includes('.')) {
       return;
     }
@@ -32,10 +33,16 @@ const CalculatorScreen = () => {
   };
 
   const onPressDelete = () => {
+    if (digitNumber.length === 2 && digitNumber.startsWith('-')) {
+      setDigitNumber('0');
+      return;
+    }
+
     if (digitNumber.length === 1) {
       setDigitNumber('0');
       return;
     }
+
     setDigitNumber(digitNumber.slice(0, -1));
   };
 
