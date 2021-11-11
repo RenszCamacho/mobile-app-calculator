@@ -1,153 +1,27 @@
 import React from 'react';
-import {View, Text, Alert} from 'react-native';
+import {View, Text} from 'react-native';
 
-import Button from '../../components/share/button/Button';
+import Button from '../../components/button/Button';
 import {calculatorTheme} from './calculatorTheme';
-import useCalc from '../../components/hooks/useCalc';
-
-enum Operators {
-  ADD = '+',
-  SUBTRACT = '-',
-  MULTIPLY = '*',
-  DIVIDE = '/',
-  EQUAL = '=',
-}
+import useCalc from '../../hooks/useCalc';
 
 const CalculatorScreen = () => {
   const {wrapperButtons, container, operand, currentOperand, previousOperand} =
     calculatorTheme;
 
   const {
-    currentNumber,
-    setCurrentNumber,
+    onPressButton,
+    onPressPositiveNegative,
+    onPressClear,
+    onPressDelete,
+    onPressAdd,
+    onPressSubstract,
+    onPressMultiply,
+    onPressDivide,
+    onPressEqual,
     prevNumber,
-    setPrevNumber,
-    lastOperatorRef,
+    currentNumber,
   } = useCalc();
-
-  const onPressButton = (value: string) => {
-    if (currentNumber.length === 15) {
-      Alert.alert('Max numbers allowed');
-      return;
-    }
-
-    if (currentNumber === 'Error' || currentNumber === 'NaN') {
-      setCurrentNumber('0');
-      setPrevNumber('0');
-      lastOperatorRef.current = undefined;
-      return;
-    }
-
-    if (value === '.' && currentNumber.includes('.')) {
-      return;
-    }
-
-    if (value === '.' && currentNumber === '0') {
-      setCurrentNumber(currentNumber + value);
-      return;
-    }
-
-    setCurrentNumber(currentNumber === '0' ? value : currentNumber + value);
-  };
-
-  const onPressClear = () => {
-    setCurrentNumber('0');
-    setPrevNumber('0');
-  };
-
-  const onPressDelete = () => {
-    if (currentNumber.length === 2 && currentNumber.startsWith('-')) {
-      setCurrentNumber('0');
-      return;
-    }
-
-    if (currentNumber.length === 1) {
-      setCurrentNumber('0');
-      return;
-    }
-
-    setCurrentNumber(currentNumber.slice(0, -1));
-  };
-
-  const onPressPositiveNegative = () => {
-    if (currentNumber === '0') {
-      return;
-    }
-    if (currentNumber.startsWith('-')) {
-      setCurrentNumber(currentNumber.slice(1));
-    } else {
-      setCurrentNumber('-' + currentNumber);
-    }
-  };
-
-  const onPressSwapNumber = () => {
-    if (currentNumber.endsWith('.')) {
-      setPrevNumber(currentNumber.slice(0, -1));
-    } else {
-      setPrevNumber(currentNumber);
-    }
-    setCurrentNumber('0');
-  };
-
-  const onPressAdd = () => {
-    onPressSwapNumber();
-    lastOperatorRef.current = Operators.ADD;
-  };
-
-  const onPressSubstract = () => {
-    onPressSwapNumber();
-    lastOperatorRef.current = Operators.SUBTRACT;
-  };
-
-  const onPressMultiply = () => {
-    onPressSwapNumber();
-    lastOperatorRef.current = Operators.MULTIPLY;
-  };
-
-  const onPressDivide = () => {
-    onPressSwapNumber();
-    lastOperatorRef.current = Operators.DIVIDE;
-  };
-
-  const onPressEqual = () => {
-    if (currentNumber === 'Error') {
-      return;
-    }
-
-    switch (lastOperatorRef.current) {
-      case Operators.ADD:
-        setCurrentNumber(
-          (parseFloat(prevNumber) + parseFloat(currentNumber)).toString(),
-        );
-        break;
-
-      case Operators.SUBTRACT:
-        setCurrentNumber(
-          (parseFloat(prevNumber) - parseFloat(currentNumber)).toString(),
-        );
-        break;
-
-      case Operators.MULTIPLY:
-        setCurrentNumber(
-          (parseFloat(prevNumber) * parseFloat(currentNumber)).toString(),
-        );
-        break;
-
-      case Operators.DIVIDE:
-        currentNumber === '0'
-          ? setCurrentNumber('Error')
-          : setCurrentNumber(
-              (parseFloat(prevNumber) / parseFloat(currentNumber)).toString(),
-            );
-        break;
-
-      default:
-        setCurrentNumber('0');
-        break;
-    }
-
-    setPrevNumber('0');
-  };
 
   return (
     <View style={container}>
