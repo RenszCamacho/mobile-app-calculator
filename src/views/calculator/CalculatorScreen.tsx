@@ -1,8 +1,9 @@
-import React, {useState, useRef} from 'react';
+import React from 'react';
 import {View, Text, Alert} from 'react-native';
 
 import Button from '../../components/share/button/Button';
 import {calculatorTheme} from './calculatorTheme';
+import useCalc from '../../components/hooks/useCalc';
 
 enum Operators {
   ADD = '+',
@@ -16,10 +17,13 @@ const CalculatorScreen = () => {
   const {wrapperButtons, container, operand, currentOperand, previousOperand} =
     calculatorTheme;
 
-  const [currentNumber, setCurrentNumber] = useState('0');
-  const [prevNumber, setPrevNumber] = useState('0');
-
-  const lastOperatorRef = useRef<Operators>();
+  const {
+    currentNumber,
+    setCurrentNumber,
+    prevNumber,
+    setPrevNumber,
+    lastOperatorRef,
+  } = useCalc();
 
   const onPressButton = (value: string) => {
     if (currentNumber.length === 15) {
