@@ -16,66 +16,66 @@ const CalculatorScreen = () => {
   const {wrapperButtons, container, operand, currentOperand, previousOperand} =
     calculatorTheme;
 
-  const [digitNumber, setDigitNumber] = useState('0');
+  const [currentNumber, setCurrentNumber] = useState('0');
   const [prevNumber, setPrevNumber] = useState('0');
 
   const lastOperatorRef = useRef<Operators>();
 
   const onPressButton = (value: string) => {
-    if (digitNumber.length === 15) {
+    if (currentNumber.length === 15) {
       Alert.alert('Max numbers allowed');
       return;
     }
 
-    if (value === '.' && digitNumber.includes('.')) {
+    if (value === '.' && currentNumber.includes('.')) {
       return;
     }
 
-    if (value === '.' && digitNumber === '0') {
-      setDigitNumber(digitNumber + value);
+    if (value === '.' && currentNumber === '0') {
+      setCurrentNumber(currentNumber + value);
       return;
     }
 
-    setDigitNumber(digitNumber === '0' ? value : digitNumber + value);
+    setCurrentNumber(currentNumber === '0' ? value : currentNumber + value);
   };
 
   const onPressClear = () => {
-    setDigitNumber('0');
+    setCurrentNumber('0');
     setPrevNumber('0');
   };
 
   const onPressDelete = () => {
-    if (digitNumber.length === 2 && digitNumber.startsWith('-')) {
-      setDigitNumber('0');
+    if (currentNumber.length === 2 && currentNumber.startsWith('-')) {
+      setCurrentNumber('0');
       return;
     }
 
-    if (digitNumber.length === 1) {
-      setDigitNumber('0');
+    if (currentNumber.length === 1) {
+      setCurrentNumber('0');
       return;
     }
 
-    setDigitNumber(digitNumber.slice(0, -1));
+    setCurrentNumber(currentNumber.slice(0, -1));
   };
 
   const onPressPositiveNegative = () => {
-    if (digitNumber === '0') {
+    if (currentNumber === '0') {
       return;
     }
-    if (digitNumber.startsWith('-')) {
-      setDigitNumber(digitNumber.slice(1));
+    if (currentNumber.startsWith('-')) {
+      setCurrentNumber(currentNumber.slice(1));
     } else {
-      setDigitNumber('-' + digitNumber);
+      setCurrentNumber('-' + currentNumber);
     }
   };
 
   const onPressSwapNumber = () => {
-    if (digitNumber.endsWith('.')) {
-      setPrevNumber(digitNumber.slice(0, -1));
+    if (currentNumber.endsWith('.')) {
+      setPrevNumber(currentNumber.slice(0, -1));
     } else {
-      setPrevNumber(digitNumber);
+      setPrevNumber(currentNumber);
     }
-    setDigitNumber('0');
+    setCurrentNumber('0');
   };
 
   const onPressAdd = () => {
@@ -98,6 +98,56 @@ const CalculatorScreen = () => {
     lastOperatorRef.current = Operators.DIVIDE;
   };
 
+  const onPressEqual = () => {
+    // if (lastOperatorRef.current === Operators.ADD) {
+    //   setCurrentNumber(
+    //     (parseFloat(prevNumber) + parseFloat(currentNumber)).toString(),
+    //   );
+    // } else if (lastOperatorRef.current === Operators.SUBTRACT) {
+    //   setCurrentNumber(
+    //     (parseFloat(prevNumber) - parseFloat(currentNumber)).toString(),
+    //   );
+    // } else if (lastOperatorRef.current === Operators.MULTIPLY) {
+    //   setCurrentNumber(
+    //     (parseFloat(prevNumber) * parseFloat(currentNumber)).toString(),
+    //   );
+    // } else if (lastOperatorRef.current === Operators.DIVIDE) {
+    //   setCurrentNumber(
+    //     (parseFloat(prevNumber) / parseFloat(currentNumber)).toString(),
+    //   );
+    // }
+    // setPrevNumber('0');
+    switch (lastOperatorRef.current) {
+      case Operators.ADD:
+        setCurrentNumber(
+          (parseFloat(prevNumber) + parseFloat(currentNumber)).toString(),
+        );
+        break;
+
+      case Operators.SUBTRACT:
+        setCurrentNumber(
+          (parseFloat(prevNumber) - parseFloat(currentNumber)).toString(),
+        );
+        break;
+
+      case Operators.MULTIPLY:
+        setCurrentNumber(
+          (parseFloat(prevNumber) * parseFloat(currentNumber)).toString(),
+        );
+        break;
+
+      case Operators.DIVIDE:
+        setCurrentNumber(
+          (parseFloat(prevNumber) / parseFloat(currentNumber)).toString(),
+        );
+        break;
+
+      default:
+        break;
+    }
+    setPrevNumber('0');
+  };
+
   return (
     <View style={container}>
       {prevNumber !== '0' && (
@@ -112,7 +162,7 @@ const CalculatorScreen = () => {
         numberOfLines={1}
         adjustsFontSizeToFit
         style={[operand, currentOperand]}>
-        {digitNumber}
+        {currentNumber}
       </Text>
 
       <View style={wrapperButtons}>
@@ -146,7 +196,7 @@ const CalculatorScreen = () => {
       <View style={wrapperButtons}>
         <Button value="0" isBig action={onPressButton} />
         <Button value="." action={onPressButton} />
-        <Button color="#FF9427" value="=" />
+        <Button color="#FF9427" value="=" action={onPressEqual} />
       </View>
     </View>
   );
