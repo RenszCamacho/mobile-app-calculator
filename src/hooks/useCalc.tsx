@@ -78,10 +78,12 @@ const useCalc = () => {
   };
 
   const onPressSubstract = () => {
+    onPressSwapNumber();
     lastOperatorRef.current = Operators.SUBTRACT;
   };
 
   const onPressMultiply = () => {
+    onPressSwapNumber();
     lastOperatorRef.current = Operators.MULTIPLY;
   };
 
@@ -91,6 +93,7 @@ const useCalc = () => {
   };
 
   const onPressEqual = () => {
+    onPressSwapNumber();
     if (currentNumber === 'Error') {
       return;
     }
