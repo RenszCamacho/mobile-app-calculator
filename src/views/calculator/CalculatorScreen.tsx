@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Alert} from 'react-native';
 
 import Button from '../../components/share/button/Button';
 import {calculatorTheme} from './calculatorTheme';
@@ -11,14 +11,20 @@ const CalculatorScreen = () => {
   const [digitNumber, setDigitNumber] = useState('0');
 
   const onPressButton = (value: string) => {
+    if (digitNumber.length === 15) {
+      Alert.alert('Max numbers allowed');
+      return;
+    }
     if (value === '.' && digitNumber.includes('.')) {
       return;
     }
+
     if (value === '.' && digitNumber === '0') {
       setDigitNumber(digitNumber + value);
       return;
     }
-    setDigitNumber(digitNumber === '0' ? '' + value : digitNumber + value);
+
+    setDigitNumber(digitNumber === '0' ? value : digitNumber + value);
   };
 
   const onPressClear = () => {
@@ -32,6 +38,30 @@ const CalculatorScreen = () => {
     }
     setDigitNumber(digitNumber.slice(0, -1));
   };
+
+  const onPressPositiveNegative = () => {
+    if (digitNumber === '0') {
+      return;
+    }
+    if (digitNumber.startsWith('-')) {
+      setDigitNumber(digitNumber.slice(1));
+    } else {
+      setDigitNumber('-' + digitNumber);
+    }
+  };
+
+  // const onPressOperator = (value: string) => {
+  //   let result;
+  //   switch (value) {
+  //     case '+':
+  //       result = setPrevNumber(digitNumber);
+  //       break;
+
+  //     default:
+  //       break;
+  //   }
+  //   return result;
+  // };
 
   return (
     <View style={container}>
@@ -52,7 +82,7 @@ const CalculatorScreen = () => {
 
       <View style={wrapperButtons}>
         <Button color="#9B9B9B" value="C" action={onPressClear} />
-        <Button color="#9B9B9B" value="+/-" />
+        <Button color="#9B9B9B" value="+/-" action={onPressPositiveNegative} />
         <Button color="#9B9B9B" value="del" action={onPressDelete} />
         <Button color="#FF9427" value="/" />
       </View>
